@@ -28,6 +28,19 @@
 - (void)loadView {
     UIView *mainView = [UIView new];
     
+    
+    UIAlertController *welcome = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Welcome to Luigi's Browser", @"welcome message")
+                                                                   message:@"Thank You for the Support"
+                                                            preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil)
+                                                       style:UIAlertActionStyleCancel handler:nil];
+    
+    [welcome addAction:okAction];
+    
+    [self presentViewController:welcome animated:YES completion:nil];
+    
+    
     self.webView = [[WKWebView alloc] init];
     self.webView.navigationDelegate = self;
     
