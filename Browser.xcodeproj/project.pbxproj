@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA58EAFC1D08609D00B5E002 /* AwesomeFloatingToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = AA58EAFB1D08609D00B5E002 /* AwesomeFloatingToolbar.m */; };
 		AAAE15BA1D02022C006652E0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAE15B91D02022C006652E0 /* main.m */; };
 		AAAE15BD1D02022C006652E0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAE15BC1D02022C006652E0 /* AppDelegate.m */; };
 		AAAE15C01D02022C006652E0 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAE15BF1D02022C006652E0 /* ViewController.m */; };
@@ -34,6 +35,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AA58EAFA1D08609D00B5E002 /* AwesomeFloatingToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AwesomeFloatingToolbar.h; sourceTree = "<group>"; };
+		AA58EAFB1D08609D00B5E002 /* AwesomeFloatingToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AwesomeFloatingToolbar.m; sourceTree = "<group>"; };
 		AAAE15B51D02022C006652E0 /* Browser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Browser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAAE15B91D02022C006652E0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		AAAE15BB1D02022C006652E0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -103,6 +106,8 @@
 				AAAE15BC1D02022C006652E0 /* AppDelegate.m */,
 				AAAE15BE1D02022C006652E0 /* ViewController.h */,
 				AAAE15BF1D02022C006652E0 /* ViewController.m */,
+				AA58EAFA1D08609D00B5E002 /* AwesomeFloatingToolbar.h */,
+				AA58EAFB1D08609D00B5E002 /* AwesomeFloatingToolbar.m */,
 				AAAE15C41D02022C006652E0 /* Assets.xcassets */,
 				AAAE15C61D02022C006652E0 /* LaunchScreen.storyboard */,
 				AAAE15C91D02022C006652E0 /* Info.plist */,
@@ -269,6 +274,7 @@
 				AAAE15C01D02022C006652E0 /* ViewController.m in Sources */,
 				AAAE15BD1D02022C006652E0 /* AppDelegate.m in Sources */,
 				AAAE15BA1D02022C006652E0 /* main.m in Sources */,
+				AA58EAFC1D08609D00B5E002 /* AwesomeFloatingToolbar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -486,6 +492,7 @@
 				AAAE15E41D02022C006652E0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AAAE15E51D02022C006652E0 /* Build configuration list for PBXNativeTarget "BrowserTests" */ = {
 			isa = XCConfigurationList;
@@ -494,6 +501,7 @@
 				AAAE15E71D02022C006652E0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AAAE15E81D02022C006652E0 /* Build configuration list for PBXNativeTarget "BrowserUITests" */ = {
 			isa = XCConfigurationList;
@@ -502,6 +510,7 @@
 				AAAE15EA1D02022C006652E0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
