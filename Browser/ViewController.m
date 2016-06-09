@@ -225,6 +225,11 @@
     self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.activityIndicator];
     
+    
+    
+    
+    //self.awesomeToolbar.frame = CGRectMake(20, 100, 280, 60);
+    
     // Do any additional setup after loading the view, typically from a nib.
 }
 
@@ -248,13 +253,10 @@
         currentButtonX += buttonWidth;
     }*/
     
+   
     CGFloat center = (self.view.frame.size.width - 280)/2;
     CGFloat bottom = (self.view.frame.size.height - 60);
     self.awesomeToolbar.frame = CGRectMake(center, bottom, 280, 60);
-    
-    
-    //CGRectMake(20, 100, 280, 60);
-    
 }
 
 #pragma mark - AwesomeFloatingToolbarDelegate
@@ -268,6 +270,17 @@
         [self.webView stopLoading];
     } else if ([title isEqual:kWebBrowserRefreshString]){
         [self.webView reload];
+    }
+}
+
+- (void) floatingToolbar:(AwesomeFloatingToolbar *)toolbar didTryToPanWithOffset:(CGPoint)offset {
+    CGPoint startingPoint = toolbar.frame.origin;
+    CGPoint newPoint = CGPointMake(startingPoint.x + offset.x, startingPoint.y + offset.y);
+    
+    CGRect potentialNewFrame = CGRectMake(newPoint.x, newPoint.y, CGRectGetWidth(toolbar.frame), CGRectGetHeight(toolbar.frame));
+    
+    if (CGRectContainsRect(self.view.bounds, potentialNewFrame)) {
+        toolbar.frame = potentialNewFrame;
     }
 }
 
