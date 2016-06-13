@@ -35,7 +35,8 @@
  #pragma mark - UIViewController
 
 - (void)loadView {
-    UIView *mainView = [UIView new];
+  UIView *mainView = [[UIView alloc] init];
+  mainView.translatesAutoresizingMaskIntoConstraints = NO;
     
     //Added Welcome Alert
     UIAlertController *welcome = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Welcome to Luigi's Browser", @"welcome message")
@@ -253,10 +254,18 @@
         currentButtonX += buttonWidth;
     }*/
     
-   
-    CGFloat center = (self.view.frame.size.width - 280)/2;
-    CGFloat bottom = (self.view.frame.size.height - 60);
-    self.awesomeToolbar.frame = CGRectMake(center, bottom, 280, 60);
+
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+  [super viewDidAppear:animated];
+  CGFloat center = self.view.frame.size.width/2;
+  CGFloat bottom = (self.view.frame.size.height - 60);
+  self.awesomeToolbar.frame = CGRectMake(self.awesomeToolbar.frame.origin.x,
+                                         self.awesomeToolbar.frame.origin.y,
+                                         280,
+                                         60);
+  self.awesomeToolbar.center = CGPointMake(center, bottom);
 }
 
 #pragma mark - AwesomeFloatingToolbarDelegate
@@ -278,11 +287,19 @@
     CGPoint newPoint = CGPointMake(startingPoint.x + offset.x, startingPoint.y + offset.y);
     
     CGRect potentialNewFrame = CGRectMake(newPoint.x, newPoint.y, CGRectGetWidth(toolbar.frame), CGRectGetHeight(toolbar.frame));
-    
-    if (CGRectContainsRect(self.view.bounds, potentialNewFrame)) {
+
+    if (CGRectIntersectsRect(self.view.bounds, potentialNewFrame)) {
         toolbar.frame = potentialNewFrame;
     }
 }
+
+- (void) floatingToolbar:(AwesomeFloatingToolbar *)toolbar didTryAndPinchWithScale:(CGFloat)scale {
+    
+    toolbar.transform = CGAffineTransformMakeScale(scale, scale);
+    
+    
+}
+
 
 
 

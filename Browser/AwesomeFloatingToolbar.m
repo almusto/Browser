@@ -17,6 +17,10 @@
 @property (nonatomic, weak) UILabel *currentLabel;
 @property (nonatomic, strong) UITapGestureRecognizer *tapGesture;
 @property (nonatomic, strong) UIPanGestureRecognizer *panGesture;
+@property (nonatomic, strong) UIPinchGestureRecognizer *pinchGesture;
+@property (nonatomic, strong) UILongPressGestureRecognizer *pressGesture;
+@property (nonatomic, strong) NSMutableArray *differentColors;
+
 
 @end
 
@@ -28,7 +32,8 @@
     self = [super init];
     
     if(self) {
-        
+      self.translatesAutoresizingMaskIntoConstraints = NO;
+
         self.currentTitles = titles;
         self.colors =@[[UIColor colorWithRed:199/255.0 green:158/255.0 blue:203/255.0 alpha:1],
                        [UIColor colorWithRed:255/255.0 green:105/255.0 blue:97/255.0 alpha:1],
@@ -66,12 +71,26 @@
         [self addGestureRecognizer:self.tapGesture];
         self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panFired:)];
         [self addGestureRecognizer:self.panGesture];
+        self.pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchFired:)];
+        [self addGestureRecognizer:self.pinchGesture];
+        self.pressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(pressFired:)];
+        [self addGestureRecognizer:self.pressGesture];
+        _pressGesture.minimumPressDuration = 1.0;
+        [_tapGesture requireGestureRecognizerToFail:_pressGesture];
+        
+        
     }
-    
+        
     return self;
 }
 
+//- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
+//
+//    return YES;
+//}
+
 -(void) tapFired:(UITapGestureRecognizer *)recognizer {
+    
     if (recognizer.state == UIGestureRecognizerStateRecognized){
         CGPoint location = [recognizer locationInView:self];
         UIView *tappedView = [self hitTest:location withEvent:nil];
@@ -84,8 +103,8 @@
     }
 }
 
-
 -(void) panFired:(UIPanGestureRecognizer *)recognizer {
+    
     if(recognizer.state == UIGestureRecognizerStateChanged) {
         CGPoint translation = [recognizer translationInView:self];
         
@@ -96,6 +115,52 @@
         }
         [recognizer setTranslation:CGPointZero inView:self];
     }
+}
+
+-(void) pinchFired:(UIPinchGestureRecognizer *)recognizer {
+    if(recognizer.state == UIGestureRecognizerStateChanged){
+        
+        CGFloat scale = recognizer.scale;
+        
+        NSLog(@"Pinch scale: %f", scale);
+        
+        if ([self.delegate respondsToSelector:@selector(floatingToolbar:didTryAndPinchWithScale:)]){
+        [self.delegate floatingToolbar:self didTryAndPinchWithScale:scale];
+        }
+    }
+}
+
+//- (NSArray *) colorChange {
+//    if (_pressGesture) {
+//        NSMutableArray *differentColors = [self.colors mutableCopy];
+//        for (NSUInteger i = 0; i < ([differentColors count]-1); i++) {
+//            [differentColors exchangeObjectAtIndex:i withObjectAtIndex:([differentColors count]-1)];
+//        }
+//    }
+//    return _differentColors;
+//}
+
+- (void) pressFired:(UILongPressGestureRecognizer *)recognizer {
+    
+    if (recognizer.state == UIGestureRecognizerStateBegan) {
+        NSMutableArray *differentColors = [self.colors mutableCopy];
+        for (NSUInteger i = 0; i < ([differentColors count]-1); i++) {
+            [differentColors exchangeObjectAtIndex:i withObjectAtIndex:([differentColors count]-1)];
+        }
+        
+        for (UILabel *label in self.labels) {
+            NSUInteger currentLabelIndex = [self.labels indexOfObject:label];
+            UIColor *colorForThisLabel = [differentColors objectAtIndex:currentLabelIndex];
+           
+            label.backgroundColor = colorForThisLabel;
+        }
+        
+        NSLog(@"Long Press Detected");
+    } else if (recognizer.state == UIGestureRecognizerStateEnded) {
+        NSLog(@"Long Press Ended");
+    }
+    
+    
 }
 
 -(void) floatingToolbar:(AwesomeFloatingToolbar *)toolbar didTryToPanWithOffset:(CGPoint)offset {
@@ -110,7 +175,9 @@
 }
 
 - (void) layoutSubviews {
-    
+
+  [super layoutSubviews];
+
     for (UILabel *thisLabel in self.labels) {
         NSUInteger currentLabelIndex = [self.labels indexOfObject:thisLabel];
         
@@ -136,6 +203,8 @@
         thisLabel.frame = CGRectMake(labelX, labelY, labelWidth, labelHieght);
     }
 }
+
+
 
 # pragma mark - Touch Handeling
 
