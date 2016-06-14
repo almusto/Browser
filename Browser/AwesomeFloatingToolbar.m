@@ -19,7 +19,7 @@
 @property (nonatomic, strong) UIPanGestureRecognizer *panGesture;
 @property (nonatomic, strong) UIPinchGestureRecognizer *pinchGesture;
 @property (nonatomic, strong) UILongPressGestureRecognizer *pressGesture;
-@property (nonatomic, strong) NSMutableArray *differentColors;
+
 
 
 @end
@@ -88,6 +88,7 @@
 //
 //    return YES;
 //}
+#pragma mark Gesture Recognizer Methods
 
 -(void) tapFired:(UITapGestureRecognizer *)recognizer {
     
@@ -130,23 +131,13 @@
     }
 }
 
-//- (NSArray *) colorChange {
-//    if (_pressGesture) {
-//        NSMutableArray *differentColors = [self.colors mutableCopy];
-//        for (NSUInteger i = 0; i < ([differentColors count]-1); i++) {
-//            [differentColors exchangeObjectAtIndex:i withObjectAtIndex:([differentColors count]-1)];
-//        }
-//    }
-//    return _differentColors;
-//}
-
 - (void) pressFired:(UILongPressGestureRecognizer *)recognizer {
     
     if (recognizer.state == UIGestureRecognizerStateBegan) {
-        NSMutableArray *differentColors = [self.colors mutableCopy];
-        for (NSUInteger i = 0; i < ([differentColors count]-1); i++) {
-            [differentColors exchangeObjectAtIndex:i withObjectAtIndex:([differentColors count]-1)];
-        }
+        
+        NSMutableArray *differentColors= [self.colors mutableCopy];
+        
+        [self.delegate pressWasLong:differentColors];
         
         for (UILabel *label in self.labels) {
             NSUInteger currentLabelIndex = [self.labels indexOfObject:label];
@@ -221,43 +212,6 @@
     
 }
 
-/*- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    UILabel *label = [self labelFromTouches:touches withEvent:event];
-    
-    self.currentLabel = label;
-    self.currentLabel.alpha = 0.5;
-}
-
--(void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    UILabel *label = [self labelFromTouches:touches withEvent:event];
-    
-    if(self.currentLabel != label){
-        self.currentLabel.alpha = 1;
-    } else {
-        self.currentLabel.alpha = 0.5;
-    }
-}
-
--(void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    UILabel *label = [self labelFromTouches:touches withEvent:event];
-    
-    if (self.currentLabel == label) {
-        NSLog(@"Label tapped: %@", self.currentLabel.text);
-        
-        if ([self.delegate respondsToSelector:@selector(floatingToolbar:didSelectButtonWithTitle:)]) {
-            [self.delegate floatingToolbar:self didSelectButtonWithTitle:self.currentLabel.text];
-        }
-    }
-    
-    self.currentLabel.alpha = 1;
-    self.currentLabel = nil;
-}
-
--(void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    self.currentLabel.alpha = 1;
-    self.currentLabel = nil;
-}
-*/
 
 #pragma mark - Button Enabling
 
